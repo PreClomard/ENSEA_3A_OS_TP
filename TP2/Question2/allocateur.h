@@ -4,6 +4,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define ALIGNMENT 16
+#define ALIGN(size) (((size) + 15) & ~15)
+#define MAGIC_NUMBER 0x0123456789ABCDEFULL
+
 typedef struct block {
     size_t size;
     struct block *next;
