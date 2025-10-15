@@ -72,7 +72,7 @@ void calculer_moyenne_locale(segment *segptr, double *moyenne_locale) {
 }
 
 void afficher_resultats(segment *segptr, double moyenne_locale) {
-    double moyenne_locale_arrondie = round(moyenne_locale);
+    double moyenne_locale_arrondie = floor(moyenne_locale);
     printf("PID : %d, Requête : %d\n", segptr->pid, segptr->req);
     printf("Moyenne locale (arrondie) : %.2f\n", moyenne_locale_arrondie);
     printf("Moyenne serveur : %.2f\n", (double)segptr->result);
