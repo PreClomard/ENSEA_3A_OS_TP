@@ -1,6 +1,6 @@
 CC      := gcc
 CFLAGS  := -Wall -Wextra -g -I.
-LDFLAGS := -L. -lseg
+LDFLAGS := -L. -lseg -lm
 
 SRC     := client.c
 OBJ     := $(SRC:.c=.o)

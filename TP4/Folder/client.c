@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <math.h>
 #include "segdef.h"
 
 void calculer_moyenne_locale(segment *segptr, double *moyenne_locale);
 void afficher_resultats(segment *segptr, double moyenne_locale);
+double moyenne_locale_arrondie;
 
 int main() {
     int shmid, semid;  
@@ -37,7 +39,7 @@ int main() {
         segptr->pid = getpid();
         segptr->req = req;
         for (int i = 0; i < maxval; i++) {
-            segptr->tab[i] = getrand();
+            segptr->tab[i] = getrand() %100;
         }
         calculer_moyenne_locale(segptr, &moyenne_locale);
 
@@ -70,8 +72,10 @@ void calculer_moyenne_locale(segment *segptr, double *moyenne_locale) {
 }
 
 void afficher_resultats(segment *segptr, double moyenne_locale) {
+    double moyenne_locale_arrondie = round(moyenne_locale);
     printf("PID : %d, Requête : %d\n", segptr->pid, segptr->req);
-    printf("Moyenne locale : %.2f\n", moyenne_locale);
-    printf("Moyenne serveur : %.2f\n", (double)segptr->result / maxval);
+    printf("Moyenne locale (arrondie) : %.2f\n", moyenne_locale_arrondie);
+    printf("Moyenne serveur : %.2f\n", (double)segptr->result);
     printf("-----------------------------\n");
 }
+
