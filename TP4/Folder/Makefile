@@ -1,24 +1,28 @@
-SRC = $(wildcard *.c)
-BIN = $(patsubst %.c,%,$(SRC))
+CC      := gcc
+CFLAGS  := -Wall -Wextra -g -I.
+LDFLAGS := -L. -lseg
 
-CFLAGS += -Wall -Wextra -g
-#CFLAGS += --std=c99
-
-INCLUDES = -I.
-
-LIBS = -L. -lseg
+SRC     := client.c
+OBJ     := $(SRC:.c=.o)
+BIN     := client
+DEPS    := segdef.h
 
 all: $(BIN)
 
-%: %.c
-	gcc $(CFLAGS) $(INCLUDES) $< -o $@ $(LIBS)
+$(BIN): $(OBJ)
+	@echo "Édition de liens : $@"
+	$(CC) $(OBJ) -o $@ $(LDFLAGS)
+
+%.o: %.c $(DEPS)
+	@echo "Compilation : $<"
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(BIN)
-	rm -f *.o
-	rm -f *~
+	@echo "Nettoyage..."
+	rm -f $(OBJ) $(BIN) *~ core
 
 indent:
+	@echo "Formatage du code..."
 	indent -linux -i4 -nut -ts2 *.c
 
-.PHONY: all clean indent
+.PHONY: all clean indent run
